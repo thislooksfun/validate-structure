@@ -4,6 +4,7 @@ export type {
   Structure,
   TypeDefs,
   TypeValidators,
+  ValidationError,
 } from "./validators";
 export { addPathToMsg } from "./validators";
 
