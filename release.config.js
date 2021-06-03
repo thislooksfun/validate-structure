@@ -10,5 +10,5 @@ module.exports = {
     ["@semantic-release/git", { message: commitMsg }],
   ],
   preset: "conventionalcommits",
-  branches: [{ name: "master" }],
+  branches: [{ name: "main" }],
 };
