@@ -4,6 +4,7 @@ on: [pull_request]
 
 jobs:
   commitlint:
+    name: "Lint commit messages"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
