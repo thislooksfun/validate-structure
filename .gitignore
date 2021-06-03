@@ -1,0 +1,9 @@
+/coverage
+/dist
+/docs
+/types
+/src/types/grammar.ts
+.DS_Store
+node_modules
+.env
+*.tgz
