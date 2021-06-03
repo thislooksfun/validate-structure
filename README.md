@@ -233,9 +233,32 @@ anywhere a Structure can.
 ```ts
 import { matchesStructure } from "validate-structure";
 
+// A single string
 matchesStructure("hello world", "string"); // -> true
+
+// A single integer
+matchesStructure(14, "int"); // -> true
 matchesStructure(14.2, "int"); // -> false
-matchesStructure({ id: 14, name: "John" }, { id: "int", name: "string" }); // -> true
+
+// An array of numbers
+matchesStructure([], "number[]"); // -> true
+matchesStructure([14], "number[]"); // -> true
+matchesStructure([1, 2, 3, 4, 5], "number[]"); // -> true
+
+// A tuple of 2 numbers
+const sizeTuple = "[number, number]"; // This could also be written "number[2]"
+matchesStructure([1, 2], sizeTuple); // -> true
+matchesStructure([1], sizeTuple); // -> false
+matchesStructure([1, 2, 3], sizeTuple); // -> false
+
+// A tuple of a string and an int
+const ruleTuple = "[string, int]";
+matchesStructure(["tabLength", 2], sizeTuple); // -> true
+matchesStructure([14, 2], sizeTuple); // -> false
+
+// A custom object structure
+const structure = { id: "int", name: "string" };
+matchesStructure({ id: 14, name: "John" }, structure); // -> true
 
 // Strict mode is on by default
 matchesStructure({ id: 14, name: "John" }, { id: "int" }); // -> false
