@@ -49,7 +49,7 @@ export function validateArrayLength(
 
   if (length !== arr.length) {
     const msg = `array must have length ${length}`;
-    return addPathToMsg(msg, path);
+    return addPathToMsg(msg, path, "val-end");
   }
 
   return [];
@@ -97,7 +97,7 @@ export function validatorFor(type: Structure | Structure[]): ValidatorFn {
       if (errors.length > 0) return errors;
       if (val.length !== type.length) {
         const msg = `array must have length ${type.length}`;
-        return addPathToMsg(msg, path);
+        return addPathToMsg(msg, path, "val-end");
       }
 
       for (let i = 0; i < val.length; ++i) {

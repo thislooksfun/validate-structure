@@ -194,7 +194,7 @@ describe("validateStructure()", () => {
       const wrongLen = {
         msg: "array must have length 2",
         path: "",
-        type: "val-start",
+        type: "val-end",
       };
       expect(validateStructure([], type)).toStrictEqual([wrongLen]);
       expect(validateStructure([""], type)).toStrictEqual([wrongLen]);
@@ -216,13 +216,13 @@ describe("validateStructure()", () => {
         { msg: "'null' is not an array", path: "", type: "val-start" },
       ]);
       expect(validateStructure([], type)).toStrictEqual([
-        { msg: "array must have length 3", path: "", type: "val-start" },
+        { msg: "array must have length 3", path: "", type: "val-end" },
       ]);
       expect(validateStructure(["a"], type)).toStrictEqual([
-        { msg: "array must have length 3", path: "", type: "val-start" },
+        { msg: "array must have length 3", path: "", type: "val-end" },
       ]);
       expect(validateStructure(["a", "b"], type)).toStrictEqual([
-        { msg: "array must have length 3", path: "", type: "val-start" },
+        { msg: "array must have length 3", path: "", type: "val-end" },
       ]);
       expect(validateStructure(["a", "b", "c"], type)).toStrictEqual([
         { msg: "'b' is not a boolean", path: "[1]", type: "val-start" },
@@ -465,7 +465,7 @@ describe("validateStructure()", () => {
         validateStructure({ arr1: [], arr2: [], arr3: [] }, struct)
       ).toStrictEqual([
         { msg: "array must not be empty", path: "arr2", type: "val-start" },
-        { msg: "array must have length 2", path: "arr3", type: "val-start" },
+        { msg: "array must have length 2", path: "arr3", type: "val-end" },
       ]);
 
       fc.assert(
@@ -489,7 +489,7 @@ describe("validateStructure()", () => {
       ]);
 
       expect(validateStructure({ rule: [] }, struct)).toStrictEqual([
-        { msg: "array must have length 2", path: "rule", type: "val-start" },
+        { msg: "array must have length 2", path: "rule", type: "val-end" },
       ]);
 
       fc.assert(
@@ -597,7 +597,7 @@ describe("validateStructure()", () => {
       const types = { Size: "[int, int]" };
 
       expect(validateStructure([], type, true, types)).toStrictEqual([
-        { msg: "array must have length 2", path: "", type: "val-start" },
+        { msg: "array must have length 2", path: "", type: "val-end" },
       ]);
 
       fc.assert(

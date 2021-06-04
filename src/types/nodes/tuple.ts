@@ -20,7 +20,7 @@ export class TupleNode extends ParseNode<ParseNode<any>[]> {
     if (errors.length) return errors;
     if (val.length !== this.of.length) {
       const msg = `array must have length ${this.of.length}`;
-      return addPathToMsg(msg, path);
+      return addPathToMsg(msg, path, "val-end");
     }
 
     for (let i = 0; i < val.length; ++i) {
