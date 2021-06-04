@@ -3,6 +3,13 @@ import { parseType } from "./types";
 export interface ValidationError {
   msg: string;
   path: string;
+
+  /**
+   * Will be one of: `"key"`, `"val-start"`, or `"val-end"`
+   *
+   * @note This will be required in v2.0.0
+   */
+  type?: string;
 }
 
 export type MatcherFn = (val: any) => boolean;
@@ -22,8 +29,12 @@ export interface Validator {
   validate: ValidatorFn;
 }
 
-export function addPathToMsg(msg: string, path: string): ValidationError[] {
-  return [{ msg, path }];
+export function addPathToMsg(
+  msg: string,
+  path: string,
+  type: string = "val-start"
+): ValidationError[] {
+  return [{ msg, path, type }];
 }
 
 export function validateArrayLength(
@@ -158,15 +169,16 @@ function validateObject(obj: TypeDefs): ValidatorFn {
       const { key, optional, array, arrLen, optContents } = parseKey(rawKey);
       valKeys = valKeys.filter(k => k !== key);
 
-      let keypath = path ? `${path}.${key}` : key;
       if (!(key in val) || val[key] === null) {
-        if (!optional) errors.push({ msg: "missing key", path: keypath });
+        if (!optional)
+          errors.push({ msg: `missing key '${key}'`, path, type: "val-end" });
         continue;
       }
 
       const entry = val[key];
       const validator = validatorFor(obj[rawKey]);
 
+      let keypath = path ? `${path}.${key}` : key;
       if (array) {
         let errs = types.array(entry, keypath, types, strict);
         if (errs.length > 0) {
@@ -197,7 +209,7 @@ function validateObject(obj: TypeDefs): ValidatorFn {
     if (strict) {
       for (const key of valKeys) {
         const keypath = path ? `${path}.${key}` : key;
-        errors.push({ msg: "extra key", path: keypath });
+        errors.push({ msg: "extra key", path: keypath, type: "key" });
       }
     }
 
