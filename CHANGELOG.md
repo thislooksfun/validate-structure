@@ -1,3 +1,10 @@
+### [1.1.1](https://github.com/thislooksfun/validate-structure/compare/v1.1.0...v1.1.1) (2021-06-04)
+
+
+### Bug Fixes
+
+* use correct keywords ([a78cfa8](https://github.com/thislooksfun/validate-structure/commit/a78cfa8f0d5bc8f31aa379acb80dd8875e1c3f1c))
+
 ## [1.1.0](https://github.com/thislooksfun/validate-structure/compare/v1.0.0...v1.1.0) (2021-06-03)
 
 
