@@ -82,12 +82,12 @@ Note: Node 14+ is required.
 
 #### validateStructure()
 
-Signature: `validateStructure(obj: any, structure: Structure, strict?: boolean, customTypes?: TypeDefs): ValidationError[]`
+Signature: `validateStructure(val: any, structure: Structure, strict?: boolean, customTypes?: TypeDefs): ValidationError[]`
 
 Arguments:
 
-1. `obj` The object to validate.
-2. `structure` The expected structure of `obj`. This must be a
+1. `val` The value to validate.
+2. `structure` The expected structure of `val`. This must be a
    [Structure](#structure).
 3. (optional) `strict` Whether or not extra keys should be treated as
    a failure (defaults to `true`)
@@ -98,7 +98,7 @@ Arguments:
 
 #### matchesStructure()
 
-Signature: `matchesStructure(obj: any, structure: Structure, strict?: boolean, customTypes?: TypeDefs): boolean`
+Signature: `matchesStructure(val: any, structure: Structure, strict?: boolean, customTypes?: TypeDefs): boolean`
 
 This is a simple wrapper around `validateStructure()` that returns `true` if and
 only if there were no errors returned by `validateStructure()`. It can be used

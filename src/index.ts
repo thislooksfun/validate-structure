@@ -12,22 +12,22 @@ import type { Structure, TypeDefs, ValidationError } from "./validators";
 import { typeValidators, validatorFor } from "./validators";
 
 export function validateStructure(
-  obj: any,
+  val: any,
   structure: Structure,
   strict: boolean = true,
   customTypes: TypeDefs = {}
 ): ValidationError[] {
   const types = typeValidators(customTypes);
   const validator = validatorFor(structure);
-  return validator(obj, "", types, strict);
+  return validator(val, "", types, strict);
 }
 
 export function matchesStructure(
-  obj: any,
+  val: any,
   structure: Structure,
   strict: boolean = true,
   customTypes: TypeDefs = {}
 ): boolean {
-  const errors = validateStructure(obj, structure, strict, customTypes);
+  const errors = validateStructure(val, structure, strict, customTypes);
   return errors.length === 0;
 }
