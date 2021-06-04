@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+set -e
+echo "Linting commits before push..."
+while IFS= read -r line; do
+  parts=($line)
+  old="${parts[3]}"
+  new="${parts[1]}"
+
+  npx commitlint -f "$old" -t "$new"
+done < /dev/stdin
+
+echo "All commits matched enforced style!"
