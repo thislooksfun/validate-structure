@@ -44,7 +44,7 @@
     "node": ">= 14"
   },
   "keywords": [
-    "yaml",
+    "object",
     "validate",
     "enforce",
     "structure"
