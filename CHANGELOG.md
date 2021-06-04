@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/thislooksfun/validate-structure/compare/v1.1.1...v1.2.0) (2021-06-04)
+
+
+### Features
+
+* add a type to validation errors ([b678f92](https://github.com/thislooksfun/validate-structure/commit/b678f920dbd9c93e4ea68d191e8e699785012467))
+
 ### [1.1.1](https://github.com/thislooksfun/validate-structure/compare/v1.1.0...v1.1.1) (2021-06-04)
 
 
