@@ -78,6 +78,7 @@ const isObj = (v: any) =>
   typeof v === "object" && !Array.isArray(v) && v != null;
 
 const defaultValidators: TypeValidators = {
+  any: () => [],
   boolean: isType("boolean"),
   number: isType("number"),
   int: isInt,
