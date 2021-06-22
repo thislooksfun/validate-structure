@@ -201,9 +201,12 @@ anywhere a Structure can.
       [`validateStructure()`](#validatestructure) for details.
 
    The return type is an array of `ValidationError` objects. Each
-   `ValidationError` is an object consisting of two keys: `msg` and `path`.
-   `msg` is a string explaining what the error is, and `path` is the path to the
-   invalid item. For example: `{ msg: 'array must not be empty', path: 'arr' }`.
+   `ValidationError` is an object consisting of three keys: `msg`, `path`, and
+   `type`. `msg` is a string explaining what the error is, `path` is the path to
+   the invalid item, and `type` is the type of the error. The default types are
+   `"key"`, `"val-start"` and `"val-end"`, depending on where the mismatch was,
+   but any string may be used. Here is an example error:
+   `{ msg: 'array must not be empty', path: ['arr'], type: "val-start" }`.
 
    Here is an example to check if a value is a string that starts with a `$`:
 
