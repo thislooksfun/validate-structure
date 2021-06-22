@@ -4,12 +4,8 @@ export interface ValidationError {
   msg: string;
   path: (string | number)[];
 
-  /**
-   * Will be one of: `"key"`, `"val-start"`, or `"val-end"`
-   *
-   * @note This will be required in v2.0.0
-   */
-  type?: string;
+  /** Will be one of: `"key"`, `"val-start"`, or `"val-end"` */
+  type: string;
 }
 
 export type MatcherFn = (val: any) => boolean;
