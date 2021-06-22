@@ -33,7 +33,7 @@ export function validateStructure(
 }
 
 /**
- * Check  that an object meets the requirements of a structure.
+ * Check that an object meets the requirements of a structure.
  *
  * @param val The value to validate.
  * @param structure The expected structure of `val`.
