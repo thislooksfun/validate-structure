@@ -37,7 +37,7 @@ describe("parseType()", () => {
     fc.assert(
       fc.property(aNumStr, s => {
         expect(parseType(`${s}[]`)).toStrictEqual(
-          new ArrayNode(new TypeNode(s), false)
+          new ArrayNode(new TypeNode(s), {})
         );
       })
     );
@@ -47,7 +47,7 @@ describe("parseType()", () => {
     fc.assert(
       fc.property(aNumStr, s => {
         expect(parseType(`${s}[]?`)).toStrictEqual(
-          new OptionalNode(new ArrayNode(new TypeNode(s), false))
+          new OptionalNode(new ArrayNode(new TypeNode(s), {}))
         );
       })
     );
@@ -57,7 +57,7 @@ describe("parseType()", () => {
     fc.assert(
       fc.property(aNumStr, s => {
         expect(parseType(`${s}?[]`)).toStrictEqual(
-          new ArrayNode(new OptionalNode(new TypeNode(s)), false)
+          new ArrayNode(new OptionalNode(new TypeNode(s)), {})
         );
       })
     );
@@ -67,9 +67,7 @@ describe("parseType()", () => {
     fc.assert(
       fc.property(aNumStr, s => {
         expect(parseType(`${s}?[]?`)).toStrictEqual(
-          new OptionalNode(
-            new ArrayNode(new OptionalNode(new TypeNode(s)), false)
-          )
+          new OptionalNode(new ArrayNode(new OptionalNode(new TypeNode(s)), {}))
         );
       })
     );
@@ -79,7 +77,7 @@ describe("parseType()", () => {
     fc.assert(
       fc.property(aNumStr, s => {
         expect(parseType(`${s}[.]`)).toStrictEqual(
-          new ArrayNode(new TypeNode(s), true)
+          new ArrayNode(new TypeNode(s), { min: 1 })
         );
       })
     );
@@ -89,7 +87,37 @@ describe("parseType()", () => {
     fc.assert(
       fc.property(aNumStr, fc.integer(), (s, i) => {
         expect(parseType(`${s}[${i}]`)).toStrictEqual(
-          new ArrayNode(new TypeNode(s), i)
+          new ArrayNode(new TypeNode(s), { min: i, max: i })
+        );
+      })
+    );
+  });
+
+  it("min-length array", () => {
+    fc.assert(
+      fc.property(aNumStr, fc.integer(), (s, i) => {
+        expect(parseType(`${s}[${i}...]`)).toStrictEqual(
+          new ArrayNode(new TypeNode(s), { min: i })
+        );
+      })
+    );
+  });
+
+  it("max-length array", () => {
+    fc.assert(
+      fc.property(aNumStr, fc.integer(), (s, i) => {
+        expect(parseType(`${s}[...${i}]`)).toStrictEqual(
+          new ArrayNode(new TypeNode(s), { max: i })
+        );
+      })
+    );
+  });
+
+  it("variable-length array", () => {
+    fc.assert(
+      fc.property(aNumStr, fc.integer(), fc.integer(), (s, min, max) => {
+        expect(parseType(`${s}[${min}...${max}]`)).toStrictEqual(
+          new ArrayNode(new TypeNode(s), { min, max })
         );
       })
     );
@@ -109,7 +137,7 @@ describe("parseType()", () => {
     fc.assert(
       fc.property(aNumStr, s => {
         expect(parseType(`${s}[][]`)).toStrictEqual(
-          new ArrayNode(new ArrayNode(new TypeNode(s), false), false)
+          new ArrayNode(new ArrayNode(new TypeNode(s), {}), {})
         );
       })
     );
@@ -126,14 +154,14 @@ describe("parseType()", () => {
                 new TypeNode(s1),
                 new OptionalNode(new TypeNode(s2)),
               ]),
-              false
+              {}
             ),
             new ArrayNode(
               new UnionNode([
-                new ArrayNode(new TypeNode(s3), false),
+                new ArrayNode(new TypeNode(s3), {}),
                 new OptionalNode(new TypeNode(s4)),
               ]),
-              false
+              {}
             ),
           ])
         );

@@ -3,9 +3,9 @@ import { validateArrayLength } from "../../validators";
 import { ParseNode } from "./base";
 
 export class ArrayNode<T> extends ParseNode<ParseNode<T>> {
-  length: boolean | number;
+  length: { min?: number; max?: number };
 
-  constructor(of: ParseNode<T>, length: boolean | number) {
+  constructor(of: ParseNode<T>, length: { min?: number; max?: number }) {
     super(of);
     this.length = length;
   }

@@ -34,17 +34,26 @@ export function buildError(
 }
 
 export function validateArrayLength(
-  length: boolean | number,
+  length: { min?: number; max?: number },
   arr: any[],
   path: (string | number)[]
 ): ValidationError[] {
-  if (length === false) return [];
-  if (length === true) {
-    return arr.length > 0 ? [] : buildError("array must not be empty", path);
+  if (length.min === length.max) {
+    if ("min" in length && arr.length !== length.min!) {
+      const msg = `array must have length ${length.min}`;
+      return buildError(msg, path, "val-end");
+    } else {
+      return [];
+    }
   }
 
-  if (length !== arr.length) {
-    const msg = `array must have length ${length}`;
+  if ("min" in length && arr.length < length.min!) {
+    const msg = `array must have at least length ${length.min}`;
+    return buildError(msg, path, "val-end");
+  }
+
+  if ("max" in length && arr.length > length.max!) {
+    const msg = `array must have no more than length ${length.max}`;
     return buildError(msg, path, "val-end");
   }
 
@@ -62,6 +71,7 @@ function typeError(
 }
 
 function isType(t: string): ValidatorFn {
+  /* istanbul ignore next -- no types currently start with vowels */
   const det = /^[aeiou]/.test(t) ? "an" : "a";
   return (v, p) => typeError(typeof v === t, v, `${det} ${t}`, p);
 }
@@ -133,14 +143,32 @@ interface ParsedKey {
   key: string;
   optional: boolean;
   array: boolean;
-  arrLen: boolean | number;
+  arrLen: { min?: number; max?: number };
   optContents: boolean;
+}
+
+function parseArrayLength(len: string): { min?: number; max?: number } {
+  if (len === "") return {};
+  if (len === ".") return { min: 1 };
+
+  if (!len.includes("...")) {
+    const asInt = parseInt(len);
+    return { min: asInt, max: asInt };
+  }
+
+  const [min, max] = len.split("...");
+
+  let length: { min?: number; max?: number } = {};
+  if (min) length.min = parseInt(min);
+  if (max) length.max = parseInt(max);
+
+  return length;
 }
 
 function parseKey(key: string): ParsedKey {
   let optional = false;
   let array = false;
-  let arrLen: boolean | number = false;
+  let arrLen: { min?: number; max?: number } = {};
   let optContents = false;
   if (key.endsWith("?")) {
     key = key.slice(0, -1);
@@ -149,9 +177,7 @@ function parseKey(key: string): ParsedKey {
   if (key.endsWith("]")) {
     const li = key.lastIndexOf("[");
     const mid = key.slice(li + 1, -1);
-    if (mid !== "") {
-      arrLen = mid === "." ? true : parseInt(mid);
-    }
+    arrLen = parseArrayLength(mid);
     key = key.slice(0, li);
     array = true;
   }

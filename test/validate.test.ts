@@ -228,7 +228,11 @@ describe("validateStructure()", () => {
         { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([], type)).toStrictEqual([
-        { msg: "array must not be empty", path: [], type: "val-start" },
+        {
+          msg: "array must have at least length 1",
+          path: [],
+          type: "val-end",
+        },
       ]);
 
       fc.assert(
@@ -255,6 +259,77 @@ describe("validateStructure()", () => {
       fc.assert(
         fc.property(
           fc.array(fc.string(), { minLength: 2, maxLength: 2 }),
+          arr => {
+            expect(validateStructure(arr, type)).toStrictEqual([]);
+          }
+        )
+      );
+    });
+
+    it("minimum length", () => {
+      const type = "string[2...]";
+      expect(validateStructure(null, type)).toStrictEqual([
+        { msg: "'null' is not an array", path: [], type: "val-start" },
+      ]);
+      const wrongLen = {
+        msg: "array must have at least length 2",
+        path: [],
+        type: "val-end",
+      };
+      expect(validateStructure([], type)).toStrictEqual([wrongLen]);
+      expect(validateStructure([""], type)).toStrictEqual([wrongLen]);
+
+      fc.assert(
+        fc.property(fc.array(fc.string(), { minLength: 2 }), arr => {
+          expect(validateStructure(arr, type)).toStrictEqual([]);
+        })
+      );
+    });
+
+    it("maximum length", () => {
+      const type = "string[...2]";
+      expect(validateStructure(null, type)).toStrictEqual([
+        { msg: "'null' is not an array", path: [], type: "val-start" },
+      ]);
+      const wrongLen = {
+        msg: "array must have no more than length 2",
+        path: [],
+        type: "val-end",
+      };
+      expect(validateStructure(["", "", ""], type)).toStrictEqual([wrongLen]);
+
+      fc.assert(
+        fc.property(fc.array(fc.string(), { maxLength: 2 }), arr => {
+          expect(validateStructure(arr, type)).toStrictEqual([]);
+        })
+      );
+    });
+
+    it("length range", () => {
+      const type = "string[2...3]";
+      expect(validateStructure(null, type)).toStrictEqual([
+        { msg: "'null' is not an array", path: [], type: "val-start" },
+      ]);
+      const tooShort = {
+        msg: "array must have at least length 2",
+        path: [],
+        type: "val-end",
+      };
+      const tooLong = {
+        msg: "array must have no more than length 3",
+        path: [],
+        type: "val-end",
+      };
+
+      expect(validateStructure([], type)).toStrictEqual([tooShort]);
+      expect(validateStructure([""], type)).toStrictEqual([tooShort]);
+      expect(validateStructure(["", "", "", ""], type)).toStrictEqual([
+        tooLong,
+      ]);
+
+      fc.assert(
+        fc.property(
+          fc.array(fc.string(), { minLength: 2, maxLength: 3 }),
           arr => {
             expect(validateStructure(arr, type)).toStrictEqual([]);
           }
@@ -511,13 +586,33 @@ describe("validateStructure()", () => {
         "arr1[]": "string",
         "arr2[.]": "string",
         "arr3[2]": "string",
+        "arr4[2...4]": "string",
+        "arr5[2...]": "string",
+        "arr6[...4]": "string",
       };
 
       expect(
-        validateStructure({ arr1: [], arr2: [], arr3: [] }, struct)
+        validateStructure(
+          { arr1: [], arr2: [], arr3: [], arr4: [], arr5: [], arr6: [] },
+          struct
+        )
       ).toStrictEqual([
-        { msg: "array must not be empty", path: ["arr2"], type: "val-start" },
+        {
+          msg: "array must have at least length 1",
+          path: ["arr2"],
+          type: "val-end",
+        },
         { msg: "array must have length 2", path: ["arr3"], type: "val-end" },
+        {
+          msg: "array must have at least length 2",
+          path: ["arr4"],
+          type: "val-end",
+        },
+        {
+          msg: "array must have at least length 2",
+          path: ["arr5"],
+          type: "val-end",
+        },
       ]);
 
       fc.assert(
@@ -525,8 +620,11 @@ describe("validateStructure()", () => {
           fc.array(fc.string()),
           fc.array(fc.string(), { minLength: 1 }),
           fc.array(fc.string(), { minLength: 2, maxLength: 2 }),
-          (arr1, arr2, arr3) => {
-            const obj = { arr1, arr2, arr3 };
+          fc.array(fc.string(), { minLength: 2, maxLength: 4 }),
+          fc.array(fc.string(), { minLength: 2 }),
+          fc.array(fc.string(), { maxLength: 4 }),
+          (arr1, arr2, arr3, arr4, arr5, arr6) => {
+            const obj = { arr1, arr2, arr3, arr4, arr5, arr6 };
             expect(validateStructure(obj, struct)).toStrictEqual([]);
           }
         )
@@ -596,7 +694,11 @@ describe("validateStructure()", () => {
       const invalid = { id: 14, names: [], children: "incorrect" };
       expect(validateStructure(invalid, struct)).toStrictEqual([
         { msg: "'14' is not a string", path: ["id"], type: "val-start" },
-        { msg: "array must not be empty", path: ["names"], type: "val-start" },
+        {
+          msg: "array must have at least length 1",
+          path: ["names"],
+          type: "val-end",
+        },
         {
           msg: "'incorrect' is not an array",
           path: ["children"],

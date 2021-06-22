@@ -29,11 +29,17 @@ optional -> nonOptional char["?"] {% d => new OptionalNode(d[0]) %}
 
 group -> char["("] union char[")"] {% d => d[1] %}
 
-array -> item char["["] length char["]"] {% d => new ArrayNode(d[0], d[2]) %} #"
+array -> item char["["] lengthRange char["]"] {% d => new ArrayNode(d[0], d[2]) %} #"
 
 tuple -> char["["] charSepItems[","] char["]"] {% d => new TupleNode(d[1]) %} #"
 
-length -> ( "." | int ):? {% d => d[0] === null ? false : d[0][0] === "." ? true : d[0][0] %}
+lengthRange -> (minMaxRange | minRange | maxRange | length):? {% d => d[0] === null ? {} : d[0][0] %}
+length ->
+    "." {% () => ({min: 1}) %}
+  | int {% d => ({ min: d[0], max: d[0] }) %}
+minRange -> int "..." {% d => ({ min: d[0] }) %}
+maxRange -> "..." int {% d => ({ max: d[1] }) %}
+minMaxRange -> int "..." int {% d => ({ min: d[0], max: d[2] }) %}
 
 type -> asciiStr {% d => new TypeNode(d[0]) %}
 asciiStr -> ascii:* {% d => d[0].join("") %}

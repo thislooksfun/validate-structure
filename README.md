@@ -138,10 +138,15 @@ Sometimes you might find that just the basic types aren't enough. That's why
 Structures.
 
 1. `"<type>?"` Optional: matches `"<type>"` or `null` or `undefined`.
-1. `"<type>[]"` Array: matches an array of `"<type>"`. If you array has a fixed
-   length `N`, use `<type>[N]`. If the array can't be empty, but you don't care
-   how long it actually is use `<type>[.]`. If null values are allowed inside
-   the array, put a `?` between the `<type>` and the `[` (like so: `int?[]`).
+1. `"<type>[]"` Array: matches an array of `"<type>"`.
+   - To ensure that an array's length is valid, use `<type>[min...max]`
+   - If you need to enforce a minimum length you can leave off max: `<type>[min...]`
+   - Likewise for a maximum length: `<type>[...max]`
+   - If your array has a fixed length (`min === max`) you can use the shorthand
+     form `<type>[N]`
+   - If the array can't be empty, you can either use `<type>[1...]` or the
+     shorthand form `<type>[.]`
+   - If null values are allowed inside the array, put a `?` between the `<type>` and the `[` (like so: `int?[]`).
 1. `"[<type 1>, ..., <type n>]"` Tuple: matches an array of `"<type>"`s with
    strict length. For example, if you have an image size stored as a pair of
    integers you can validate that with `"[int, int]"`.
@@ -158,8 +163,9 @@ exceptions:
 
 1. If a value is optional you can append a `'?'` to the key. For example:
    `{ 'optional?': 'string' }`.
-1. If a value should be an array you can use the array syntax above (`[]`, `[.]`,
-   and `[N]`). For example: `{ 'arr[]': 'string' }`.
+1. If a value should be an array you can use the array syntax above (`[]`,
+   `[min...max]`, `[min...]`, `[...max]`, `[.]`, and `[N]`).
+   For example: `{ 'arr[]': 'string' }`.
 1. If a value should be a tuple, you can use an array of values. For example:
    `{ size: ["int", "int"] }`.
 
