@@ -58,17 +58,16 @@ function typeError(
   p: (string | number)[]
 ): ValidationError[] {
   if (b) return [];
-
-  const det = /^[aeiou]/.test(t) ? "an" : "a";
-  return buildError(`'${v}' is not ${det} ${t}`, p);
+  return buildError(`'${v}' is not ${t}`, p);
 }
 
 function isType(t: string): ValidatorFn {
-  return (v, p) => typeError(typeof v === t, v, t, p);
+  const det = /^[aeiou]/.test(t) ? "an" : "a";
+  return (v, p) => typeError(typeof v === t, v, `${det} ${t}`, p);
 }
 
 const isInt: ValidatorFn = (v, p) =>
-  typeError(typeof v === "number" && Math.round(v) === v, v, "integer", p);
+  typeError(typeof v === "number" && Math.round(v) === v, v, "an integer", p);
 
 const isObj = (v: any) =>
   typeof v === "object" && !Array.isArray(v) && v != null;
@@ -88,8 +87,8 @@ const defaultValidators: TypeValidators = {
   string: isType("string"),
   symbol: isType("symbol"),
   function: isType("function"),
-  array: (v, p) => typeError(Array.isArray(v), v, "array", p),
-  object: (v, p) => typeError(isObj(v), v, "object", p),
+  array: (v, p) => typeError(Array.isArray(v), v, "an array", p),
+  object: (v, p) => typeError(isObj(v), v, "an object", p),
 };
 
 export function validatorFor(type: Structure | Structure[]): ValidatorFn {
