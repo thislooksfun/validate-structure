@@ -80,6 +80,8 @@ const defaultValidators: TypeValidators = {
       return [];
     }
   },
+  null: (v, p) => typeError(v === null, v, "null", p),
+  undefined: (v, p) => typeError(v === undefined, v, "undefined", p),
   boolean: isType("boolean"),
   number: isType("number"),
   int: isInt,

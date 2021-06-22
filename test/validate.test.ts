@@ -40,6 +40,22 @@ describe("validateStructure()", () => {
       );
     });
 
+    it("null", () => {
+      const type = "null";
+      expect(validateStructure(null, type)).toStrictEqual([]);
+      expect(validateStructure(undefined, type)).toStrictEqual([
+        { msg: "'undefined' is not null", path: [], type: "val-start" },
+      ]);
+    });
+
+    it("undefined", () => {
+      const type = "undefined";
+      expect(validateStructure(undefined, type)).toStrictEqual([]);
+      expect(validateStructure(null, type)).toStrictEqual([
+        { msg: "'null' is not undefined", path: [], type: "val-start" },
+      ]);
+    });
+
     it("boolean", () => {
       const type = "boolean";
       expect(validateStructure(null, type)).toStrictEqual([

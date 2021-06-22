@@ -116,6 +116,8 @@ The most basic Structure is a single string representing a native type. The
 following `typeof`s are supported out-of-the-box:
 
 1. `"any"` (matches anything except `null` and `undefined`)
+1. `"null"`
+1. `"undefined"` (note that this still requires the key to be present)
 1. `"boolean"`
 1. `"number"`
 1. `"bigint"`
