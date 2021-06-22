@@ -1,3 +1,15 @@
+## [1.3.0](https://github.com/thislooksfun/validate-structure/compare/v1.2.0...v1.3.0) (2021-06-22)
+
+
+### Features
+
+* add a validator that matches any type ([d1289e1](https://github.com/thislooksfun/validate-structure/commit/d1289e1d9585057ba52454ef6c94c40204cc5ea4))
+
+
+### Bug Fixes
+
+* point array length errors to the end ([71b8def](https://github.com/thislooksfun/validate-structure/commit/71b8def700a7c5d755d2633fd35cf8a2b2fe8e8d))
+
 ## [1.2.0](https://github.com/thislooksfun/validate-structure/compare/v1.1.1...v1.2.0) (2021-06-04)
 
 
