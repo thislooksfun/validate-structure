@@ -8,7 +8,7 @@ export class OptionalNode<T> extends ParseNode<ParseNode<T>> {
 
   validate(
     val: any,
-    path: string,
+    path: (string | number)[],
     types: TypeValidators,
     strict: boolean
   ): ValidationError[] {

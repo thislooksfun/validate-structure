@@ -12,7 +12,7 @@ export class TupleNode extends ParseNode<ParseNode<any>[]> {
 
   validate(
     val: any,
-    path: string,
+    path: (string | number)[],
     types: TypeValidators,
     strict: boolean
   ): ValidationError[] {
@@ -24,7 +24,7 @@ export class TupleNode extends ParseNode<ParseNode<any>[]> {
     }
 
     for (let i = 0; i < val.length; ++i) {
-      const keypath = `${path}[${i}]`;
+      const keypath = [...path, i];
       const errs = this.of[i].validate(val[i], keypath, types, strict);
       errors.push(...errs);
     }

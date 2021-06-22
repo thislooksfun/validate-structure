@@ -13,7 +13,7 @@ export abstract class ParseNode<T> implements Validator {
 
   abstract validate(
     val: any,
-    path: string,
+    path: (string | number)[],
     types: TypeValidators,
     strict: boolean
   ): ValidationError[];

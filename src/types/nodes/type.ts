@@ -12,7 +12,7 @@ export class TypeNode extends ParseNode<string> {
 
   validate(
     val: any,
-    path: string,
+    path: (string | number)[],
     types: TypeValidators,
     strict: boolean
   ): ValidationError[] {

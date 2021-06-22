@@ -29,7 +29,7 @@ export function validateStructure(
 ): ValidationError[] {
   const types = typeValidators(customTypes);
   const validator = validatorFor(structure);
-  return validator(val, "", types, strict);
+  return validator(val, [], types, strict);
 }
 
 /**

@@ -9,7 +9,7 @@ export class UnionNode extends ParseNode<ParseNode<any>[]> {
 
   validate(
     val: any,
-    path: string,
+    path: (string | number)[],
     types: TypeValidators,
     strict: boolean
   ): ValidationError[] {

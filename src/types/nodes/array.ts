@@ -12,7 +12,7 @@ export class ArrayNode<T> extends ParseNode<ParseNode<T>> {
 
   validate(
     val: any,
-    path: string,
+    path: (string | number)[],
     types: TypeValidators,
     strict: boolean
   ): ValidationError[] {
@@ -22,7 +22,7 @@ export class ArrayNode<T> extends ParseNode<ParseNode<T>> {
     if (errors.length > 0) return errors;
 
     for (let i = 0; i < val.length; ++i) {
-      const keypath = `${path}[${i}]`;
+      const keypath = [...path, i];
       const errs = this.of.validate(val[i], keypath, types, strict);
       errors.push(...errs);
     }

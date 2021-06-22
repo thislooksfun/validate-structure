@@ -2,7 +2,7 @@ import { parseType } from "./types";
 
 export interface ValidationError {
   msg: string;
-  path: string;
+  path: (string | number)[];
 
   /**
    * Will be one of: `"key"`, `"val-start"`, or `"val-end"`
@@ -15,7 +15,7 @@ export interface ValidationError {
 export type MatcherFn = (val: any) => boolean;
 export type ValidatorFn = (
   val: any,
-  path: string,
+  path: (string | number)[],
   types: TypeValidators,
   strict: boolean
 ) => ValidationError[];
@@ -31,7 +31,7 @@ export interface Validator {
 
 export function addPathToMsg(
   msg: string,
-  path: string,
+  path: (string | number)[],
   type: string = "val-start"
 ): ValidationError[] {
   return [{ msg, path, type }];
@@ -40,7 +40,7 @@ export function addPathToMsg(
 export function validateArrayLength(
   length: boolean | number,
   arr: any[],
-  path: string
+  path: (string | number)[]
 ): ValidationError[] {
   if (length === false) return [];
   if (length === true) {
@@ -59,7 +59,7 @@ function typeError(
   b: boolean,
   v: any,
   t: string,
-  p: string
+  p: (string | number)[]
 ): ValidationError[] {
   if (b) return [];
 
@@ -102,7 +102,7 @@ export function validatorFor(type: Structure | Structure[]): ValidatorFn {
       }
 
       for (let i = 0; i < val.length; ++i) {
-        const keypath = `${path}[${i}]`;
+        const keypath = [...path, i];
         const validator = validatorFor(type[i]);
         const errs = validator(val[i], keypath, types, strict);
         errors.push(...errs);
@@ -179,7 +179,7 @@ function validateObject(obj: TypeDefs): ValidatorFn {
       const entry = val[key];
       const validator = validatorFor(obj[rawKey]);
 
-      let keypath = path ? `${path}.${key}` : key;
+      let keypath = [...path, key];
       if (array) {
         let errs = types.array(entry, keypath, types, strict);
         if (errs.length > 0) {
@@ -196,7 +196,7 @@ function validateObject(obj: TypeDefs): ValidatorFn {
         for (let i = 0; i < entry.length; ++i) {
           const item = entry[i];
           if (item == null && optContents) continue;
-          keypath = `${keypath}[${i}]`;
+          keypath = [...keypath, i];
           errs = validator(item, keypath, types, strict);
           errors.push(...errs);
         }
@@ -209,7 +209,7 @@ function validateObject(obj: TypeDefs): ValidatorFn {
     // In strict mode, make sure that there are no extra keys.
     if (strict) {
       for (const key of valKeys) {
-        const keypath = path ? `${path}.${key}` : key;
+        const keypath = [...path, key];
         errors.push({ msg: "extra key", path: keypath, type: "key" });
       }
     }

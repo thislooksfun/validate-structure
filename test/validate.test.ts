@@ -16,7 +16,7 @@ describe("validateStructure()", () => {
     it("boolean", () => {
       const type = "boolean";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not a boolean", path: "", type: "val-start" },
+        { msg: "'null' is not a boolean", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -29,7 +29,7 @@ describe("validateStructure()", () => {
     it("number", () => {
       const type = "number";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not a number", path: "", type: "val-start" },
+        { msg: "'null' is not a number", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -42,10 +42,10 @@ describe("validateStructure()", () => {
     it("int", () => {
       const type = "int";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an integer", path: "", type: "val-start" },
+        { msg: "'null' is not an integer", path: [], type: "val-start" },
       ]);
       expect(validateStructure(0.5, type)).toStrictEqual([
-        { msg: "'0.5' is not an integer", path: "", type: "val-start" },
+        { msg: "'0.5' is not an integer", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -58,13 +58,13 @@ describe("validateStructure()", () => {
     it("bigint", () => {
       const type = "bigint";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not a bigint", path: "", type: "val-start" },
+        { msg: "'null' is not a bigint", path: [], type: "val-start" },
       ]);
       expect(validateStructure(0.5, type)).toStrictEqual([
-        { msg: "'0.5' is not a bigint", path: "", type: "val-start" },
+        { msg: "'0.5' is not a bigint", path: [], type: "val-start" },
       ]);
       expect(validateStructure(10, type)).toStrictEqual([
-        { msg: "'10' is not a bigint", path: "", type: "val-start" },
+        { msg: "'10' is not a bigint", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -77,7 +77,7 @@ describe("validateStructure()", () => {
     it("string", () => {
       const type = "string";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not a string", path: "", type: "val-start" },
+        { msg: "'null' is not a string", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -90,10 +90,10 @@ describe("validateStructure()", () => {
     it("symbol", () => {
       const type = "symbol";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not a symbol", path: "", type: "val-start" },
+        { msg: "'null' is not a symbol", path: [], type: "val-start" },
       ]);
       expect(validateStructure("", type)).toStrictEqual([
-        { msg: "'' is not a symbol", path: "", type: "val-start" },
+        { msg: "'' is not a symbol", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -106,10 +106,10 @@ describe("validateStructure()", () => {
     it("function", () => {
       const type = "function";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not a function", path: "", type: "val-start" },
+        { msg: "'null' is not a function", path: [], type: "val-start" },
       ]);
       expect(validateStructure("", type)).toStrictEqual([
-        { msg: "'' is not a function", path: "", type: "val-start" },
+        { msg: "'' is not a function", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -122,15 +122,15 @@ describe("validateStructure()", () => {
     it("array", () => {
       const type = "array";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an array", path: "", type: "val-start" },
+        { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure("", type)).toStrictEqual([
-        { msg: "'' is not an array", path: "", type: "val-start" },
+        { msg: "'' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure({}, type)).toStrictEqual([
         {
           msg: "'[object Object]' is not an array",
-          path: "",
+          path: [],
           type: "val-start",
         },
       ]);
@@ -145,13 +145,13 @@ describe("validateStructure()", () => {
     it("object", () => {
       const type = "object";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an object", path: "", type: "val-start" },
+        { msg: "'null' is not an object", path: [], type: "val-start" },
       ]);
       expect(validateStructure([], type)).toStrictEqual([
-        { msg: "'' is not an object", path: "", type: "val-start" },
+        { msg: "'' is not an object", path: [], type: "val-start" },
       ]);
       expect(validateStructure("", type)).toStrictEqual([
-        { msg: "'' is not an object", path: "", type: "val-start" },
+        { msg: "'' is not an object", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -166,10 +166,10 @@ describe("validateStructure()", () => {
     it("simple", () => {
       const type = "string[]";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an array", path: "", type: "val-start" },
+        { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([14], type)).toStrictEqual([
-        { msg: "'14' is not a string", path: "[0]", type: "val-start" },
+        { msg: "'14' is not a string", path: [0], type: "val-start" },
       ]);
 
       fc.assert(
@@ -182,10 +182,10 @@ describe("validateStructure()", () => {
     it("non-empty", () => {
       const type = "string[.]";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an array", path: "", type: "val-start" },
+        { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([], type)).toStrictEqual([
-        { msg: "array must not be empty", path: "", type: "val-start" },
+        { msg: "array must not be empty", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -198,11 +198,11 @@ describe("validateStructure()", () => {
     it("fixed-length", () => {
       const type = "string[2]";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an array", path: "", type: "val-start" },
+        { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       const wrongLen = {
         msg: "array must have length 2",
-        path: "",
+        path: [],
         type: "val-end",
       };
       expect(validateStructure([], type)).toStrictEqual([wrongLen]);
@@ -222,23 +222,23 @@ describe("validateStructure()", () => {
     it("tuple", () => {
       const type = "[string, boolean, int]";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an array", path: "", type: "val-start" },
+        { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([], type)).toStrictEqual([
-        { msg: "array must have length 3", path: "", type: "val-end" },
+        { msg: "array must have length 3", path: [], type: "val-end" },
       ]);
       expect(validateStructure(["a"], type)).toStrictEqual([
-        { msg: "array must have length 3", path: "", type: "val-end" },
+        { msg: "array must have length 3", path: [], type: "val-end" },
       ]);
       expect(validateStructure(["a", "b"], type)).toStrictEqual([
-        { msg: "array must have length 3", path: "", type: "val-end" },
+        { msg: "array must have length 3", path: [], type: "val-end" },
       ]);
       expect(validateStructure(["a", "b", "c"], type)).toStrictEqual([
-        { msg: "'b' is not a boolean", path: "[1]", type: "val-start" },
-        { msg: "'c' is not an integer", path: "[2]", type: "val-start" },
+        { msg: "'b' is not a boolean", path: [1], type: "val-start" },
+        { msg: "'c' is not an integer", path: [2], type: "val-start" },
       ]);
       expect(validateStructure(["a", true, 0.5], type)).toStrictEqual([
-        { msg: "'0.5' is not an integer", path: "[2]", type: "val-start" },
+        { msg: "'0.5' is not an integer", path: [2], type: "val-start" },
       ]);
 
       fc.assert(
@@ -253,7 +253,7 @@ describe("validateStructure()", () => {
     it("optional", () => {
       const type = "string?";
       expect(validateStructure(2, type)).toStrictEqual([
-        { msg: "'2' is not a string", path: "", type: "val-start" },
+        { msg: "'2' is not a string", path: [], type: "val-start" },
       ]);
 
       fc.assert(
@@ -266,13 +266,13 @@ describe("validateStructure()", () => {
     it("optional array", () => {
       const type = "string[]?";
       expect(validateStructure([null], type)).toStrictEqual([
-        { msg: "'null' is not a string", path: "[0]", type: "val-start" },
+        { msg: "'null' is not a string", path: [0], type: "val-start" },
       ]);
       expect(validateStructure("", type)).toStrictEqual([
-        { msg: "'' is not an array", path: "", type: "val-start" },
+        { msg: "'' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([4], type)).toStrictEqual([
-        { msg: "'4' is not a string", path: "[0]", type: "val-start" },
+        { msg: "'4' is not a string", path: [0], type: "val-start" },
       ]);
 
       fc.assert(
@@ -285,13 +285,13 @@ describe("validateStructure()", () => {
     it("array of optionals", () => {
       const type = "string?[]";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an array", path: "", type: "val-start" },
+        { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure("", type)).toStrictEqual([
-        { msg: "'' is not an array", path: "", type: "val-start" },
+        { msg: "'' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([4], type)).toStrictEqual([
-        { msg: "'4' is not a string", path: "[0]", type: "val-start" },
+        { msg: "'4' is not a string", path: [0], type: "val-start" },
       ]);
 
       fc.assert(
@@ -304,10 +304,10 @@ describe("validateStructure()", () => {
     it("optional array of optionals", () => {
       const type = "string?[]?";
       expect(validateStructure("", type)).toStrictEqual([
-        { msg: "'' is not an array", path: "", type: "val-start" },
+        { msg: "'' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([4], type)).toStrictEqual([
-        { msg: "'4' is not a string", path: "[0]", type: "val-start" },
+        { msg: "'4' is not a string", path: [0], type: "val-start" },
       ]);
 
       fc.assert(
@@ -320,10 +320,10 @@ describe("validateStructure()", () => {
     it("array of arrays", () => {
       const type = "string[][]";
       expect(validateStructure(null, type)).toStrictEqual([
-        { msg: "'null' is not an array", path: "", type: "val-start" },
+        { msg: "'null' is not an array", path: [], type: "val-start" },
       ]);
       expect(validateStructure([[""], [1]], type)).toStrictEqual([
-        { msg: "'1' is not a string", path: "[1][0]", type: "val-start" },
+        { msg: "'1' is not a string", path: [1, 0], type: "val-start" },
       ]);
 
       fc.assert(
@@ -338,14 +338,14 @@ describe("validateStructure()", () => {
       expect(validateStructure(0.5, type)).toStrictEqual([
         {
           msg: `'0.5' does not match pattern '${type}'`,
-          path: "",
+          path: [],
           type: "val-start",
         },
       ]);
       expect(validateStructure(true, type)).toStrictEqual([
         {
           msg: `'true' does not match pattern '${type}'`,
-          path: "",
+          path: [],
           type: "val-start",
         },
       ]);
@@ -371,11 +371,11 @@ describe("validateStructure()", () => {
       const struct = { id: "string", timestamp: "int" };
 
       expect(validateStructure(null, struct)).toStrictEqual([
-        { msg: "'null' is not an object", path: "", type: "val-start" },
+        { msg: "'null' is not an object", path: [], type: "val-start" },
       ]);
 
       expect(validateStructure({ id: "abc" }, struct)).toStrictEqual([
-        { msg: "missing key 'timestamp'", path: "", type: "val-end" },
+        { msg: "missing key 'timestamp'", path: [], type: "val-end" },
       ]);
 
       fc.assert(
@@ -384,7 +384,7 @@ describe("validateStructure()", () => {
           expect(validateStructure(obj, struct)).toStrictEqual([
             {
               msg: `'${s2}' is not an integer`,
-              path: "timestamp",
+              path: ["timestamp"],
               type: "val-start",
             },
           ]);
@@ -395,7 +395,7 @@ describe("validateStructure()", () => {
         fc.property(fc.integer(), fc.integer(), (i1, i2) => {
           const obj = { id: i1, timestamp: i2 };
           expect(validateStructure(obj, struct)).toStrictEqual([
-            { msg: `'${i1}' is not a string`, path: "id", type: "val-start" },
+            { msg: `'${i1}' is not a string`, path: ["id"], type: "val-start" },
           ]);
         })
       );
@@ -407,7 +407,7 @@ describe("validateStructure()", () => {
           const obj2 = { id: s, timestamp: i, extra: true };
           expect(validateStructure(obj2, struct, false)).toStrictEqual([]);
           expect(validateStructure(obj2, struct, true)).toStrictEqual([
-            { msg: "extra key", path: "extra", type: "key" },
+            { msg: "extra key", path: ["extra"], type: "key" },
           ]);
         })
       );
@@ -417,20 +417,20 @@ describe("validateStructure()", () => {
       const struct = { id: "string", meta: { timestamp: "int" } };
 
       expect(validateStructure(null, struct)).toStrictEqual([
-        { msg: "'null' is not an object", path: "", type: "val-start" },
+        { msg: "'null' is not an object", path: [], type: "val-start" },
       ]);
 
       expect(validateStructure({ id: "abc" }, struct)).toStrictEqual([
-        { msg: "missing key 'meta'", path: "", type: "val-end" },
+        { msg: "missing key 'meta'", path: [], type: "val-end" },
       ]);
       expect(validateStructure({ id: "abc", meta: {} }, struct)).toStrictEqual([
-        { msg: "missing key 'timestamp'", path: "meta", type: "val-end" },
+        { msg: "missing key 'timestamp'", path: ["meta"], type: "val-end" },
       ]);
       expect(
         validateStructure({ id: "abc", meta: { extra: true } }, struct)
       ).toStrictEqual([
-        { msg: "missing key 'timestamp'", path: "meta", type: "val-end" },
-        { msg: "extra key", path: "meta.extra", type: "key" },
+        { msg: "missing key 'timestamp'", path: ["meta"], type: "val-end" },
+        { msg: "extra key", path: ["meta", "extra"], type: "key" },
       ]);
 
       fc.assert(
@@ -439,7 +439,7 @@ describe("validateStructure()", () => {
           expect(validateStructure(obj, struct)).toStrictEqual([
             {
               msg: `'${s2}' is not an integer`,
-              path: "meta.timestamp",
+              path: ["meta", "timestamp"],
               type: "val-start",
             },
           ]);
@@ -450,7 +450,7 @@ describe("validateStructure()", () => {
         fc.property(fc.integer(), fc.integer(), (i1, i2) => {
           const obj = { id: i1, meta: { timestamp: i2 } };
           expect(validateStructure(obj, struct)).toStrictEqual([
-            { msg: `'${i1}' is not a string`, path: "id", type: "val-start" },
+            { msg: `'${i1}' is not a string`, path: ["id"], type: "val-start" },
           ]);
         })
       );
@@ -473,8 +473,8 @@ describe("validateStructure()", () => {
       expect(
         validateStructure({ arr1: [], arr2: [], arr3: [] }, struct)
       ).toStrictEqual([
-        { msg: "array must not be empty", path: "arr2", type: "val-start" },
-        { msg: "array must have length 2", path: "arr3", type: "val-end" },
+        { msg: "array must not be empty", path: ["arr2"], type: "val-start" },
+        { msg: "array must have length 2", path: ["arr3"], type: "val-end" },
       ]);
 
       fc.assert(
@@ -494,11 +494,11 @@ describe("validateStructure()", () => {
       const struct = { rule: ["string", "int"] };
 
       expect(validateStructure({ rule: "hmm" }, struct)).toStrictEqual([
-        { msg: "'hmm' is not an array", path: "rule", type: "val-start" },
+        { msg: "'hmm' is not an array", path: ["rule"], type: "val-start" },
       ]);
 
       expect(validateStructure({ rule: [] }, struct)).toStrictEqual([
-        { msg: "array must have length 2", path: "rule", type: "val-end" },
+        { msg: "array must have length 2", path: ["rule"], type: "val-end" },
       ]);
 
       fc.assert(
@@ -507,7 +507,7 @@ describe("validateStructure()", () => {
           expect(validateStructure(obj, struct)).toStrictEqual([
             {
               msg: `'${s2}' is not an integer`,
-              path: "rule[1]",
+              path: ["rule", 1],
               type: "val-start",
             },
           ]);
@@ -520,7 +520,7 @@ describe("validateStructure()", () => {
           expect(validateStructure(obj, struct)).toStrictEqual([
             {
               msg: `'${i1}' is not a string`,
-              path: "rule[0]",
+              path: ["rule", 0],
               type: "val-start",
             },
           ]);
@@ -552,11 +552,11 @@ describe("validateStructure()", () => {
 
       const invalid = { id: 14, names: [], children: "incorrect" };
       expect(validateStructure(invalid, struct)).toStrictEqual([
-        { msg: "'14' is not a string", path: "id", type: "val-start" },
-        { msg: "array must not be empty", path: "names", type: "val-start" },
+        { msg: "'14' is not a string", path: ["id"], type: "val-start" },
+        { msg: "array must not be empty", path: ["names"], type: "val-start" },
         {
           msg: "'incorrect' is not an array",
-          path: "children",
+          path: ["children"],
           type: "val-start",
         },
       ]);
@@ -606,7 +606,7 @@ describe("validateStructure()", () => {
       const types = { Size: "[int, int]" };
 
       expect(validateStructure([], type, true, types)).toStrictEqual([
-        { msg: "array must have length 2", path: "", type: "val-end" },
+        { msg: "array must have length 2", path: [], type: "val-end" },
       ]);
 
       fc.assert(
@@ -614,12 +614,12 @@ describe("validateStructure()", () => {
           expect(validateStructure([s1, s2], type, true, types)).toStrictEqual([
             {
               msg: `'${s1}' is not an integer`,
-              path: "[0]",
+              path: [0],
               type: "val-start",
             },
             {
               msg: `'${s2}' is not an integer`,
-              path: "[1]",
+              path: [1],
               type: "val-start",
             },
           ]);
@@ -628,12 +628,12 @@ describe("validateStructure()", () => {
 
       // Should fail if it can't find the custom type
       expect(validateStructure([], type)).toStrictEqual([
-        { msg: "unknown type 'Size'", path: "", type: "val-start" },
+        { msg: "unknown type 'Size'", path: [], type: "val-start" },
       ]);
 
       // Should fail even if the custom type is nested
       expect(validateStructure({ p: "" }, { p: type })).toStrictEqual([
-        { msg: "unknown type 'Size'", path: "p", type: "val-start" },
+        { msg: "unknown type 'Size'", path: ["p"], type: "val-start" },
       ]);
 
       fc.assert(
@@ -684,7 +684,7 @@ describe("validateStructure()", () => {
           const match = (v: any) => v === str;
           expect(validateStructure(str, match)).toStrictEqual([]);
           expect(validateStructure(str + "x", match)).toStrictEqual([
-            { msg: `'${str}x' does not match`, path: "", type: "val-start" },
+            { msg: `'${str}x' does not match`, path: [], type: "val-start" },
           ]);
         })
       );
@@ -697,7 +697,7 @@ describe("validateStructure()", () => {
           const types = { Custom: (v: any) => v === str };
           expect(validateStructure(str, type, true, types)).toStrictEqual([]);
           expect(validateStructure(str + "x", type, true, types)).toStrictEqual(
-            [{ msg: `'${str}x' does not match`, path: "", type: "val-start" }]
+            [{ msg: `'${str}x' does not match`, path: [], type: "val-start" }]
           );
         })
       );
@@ -708,11 +708,11 @@ describe("validateStructure()", () => {
     it("in structure", () => {
       fc.assert(
         fc.property(fc.string(), fc.string(), fc.string(), (str, msg, type) => {
-          const match = (val: any, path: string) =>
+          const match = (val: any, path: (string | number)[]) =>
             val === str ? [] : [{ msg, path, type }];
           expect(validateStructure(str, match)).toStrictEqual([]);
           expect(validateStructure(str + "x", match)).toStrictEqual([
-            { msg, path: "", type },
+            { msg, path: [], type },
           ]);
         })
       );
@@ -723,13 +723,13 @@ describe("validateStructure()", () => {
         fc.property(fc.string(), fc.string(), fc.string(), (str, msg, type) => {
           const struct = "Custom";
           const types = {
-            Custom: (val: any, path: string) =>
+            Custom: (val: any, path: (string | number)[]) =>
               val === str ? [] : [{ msg, path, type }],
           };
           expect(validateStructure(str, struct, true, types)).toStrictEqual([]);
           expect(
             validateStructure(str + "x", struct, true, types)
-          ).toStrictEqual([{ msg, path: "", type }]);
+          ).toStrictEqual([{ msg, path: [], type }]);
         })
       );
     });
