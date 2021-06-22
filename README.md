@@ -212,7 +212,7 @@ anywhere a Structure can.
 
    ```ts
    import type { ValidatorFn } from "validate-structure";
-   import { validateStructure, addPathToMsg } from "validate-structure";
+   import { validateStructure, buildError } from "validate-structure";
 
    const dollarString: ValidatorFn = (val, path, types, strict) => {
      // Check if the value is a string
@@ -223,7 +223,7 @@ anywhere a Structure can.
      if (val.startsWith("$")) return [];
 
      // The value is invalid, return an error
-     return addPathToMsg(`'${val}' does not start with a '$'`, path);
+     return buildError(`'${val}' does not start with a '$'`, path);
    };
 
    validateStructure("$12", dollarString); // -> []

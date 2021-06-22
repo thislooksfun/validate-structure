@@ -6,7 +6,7 @@ export type {
   TypeValidators,
   ValidationError,
 } from "./validators";
-export { addPathToMsg } from "./validators";
+export { buildError } from "./validators";
 
 import type { Structure, TypeDefs, ValidationError } from "./validators";
 import { typeValidators, validatorFor } from "./validators";

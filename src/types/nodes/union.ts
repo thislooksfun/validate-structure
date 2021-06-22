@@ -1,5 +1,5 @@
 import type { TypeValidators, ValidationError } from "../../validators";
-import { addPathToMsg } from "../../validators";
+import { buildError } from "../../validators";
 import { ParseNode } from "./base";
 
 export class UnionNode extends ParseNode<ParseNode<any>[]> {
@@ -19,7 +19,7 @@ export class UnionNode extends ParseNode<ParseNode<any>[]> {
     }
 
     const msg = `'${val}' does not match pattern '${this.stringify()}'`;
-    return addPathToMsg(msg, path);
+    return buildError(msg, path);
   }
 
   stringify(): string {

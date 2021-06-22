@@ -1,8 +1,4 @@
-import {
-  addPathToMsg,
-  TypeValidators,
-  ValidationError,
-} from "../../validators";
+import { buildError, TypeValidators, ValidationError } from "../../validators";
 import { ParseNode } from "./base";
 
 export class TypeNode extends ParseNode<string> {
@@ -17,7 +13,7 @@ export class TypeNode extends ParseNode<string> {
     strict: boolean
   ): ValidationError[] {
     if (!(this.of in types)) {
-      return addPathToMsg(`unknown type '${this.of}'`, path);
+      return buildError(`unknown type '${this.of}'`, path);
     }
     return types[this.of](val, path, types, strict);
   }

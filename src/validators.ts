@@ -25,7 +25,7 @@ export interface Validator {
   validate: ValidatorFn;
 }
 
-export function addPathToMsg(
+export function buildError(
   msg: string,
   path: (string | number)[],
   type: string = "val-start"
@@ -40,12 +40,12 @@ export function validateArrayLength(
 ): ValidationError[] {
   if (length === false) return [];
   if (length === true) {
-    return arr.length > 0 ? [] : addPathToMsg("array must not be empty", path);
+    return arr.length > 0 ? [] : buildError("array must not be empty", path);
   }
 
   if (length !== arr.length) {
     const msg = `array must have length ${length}`;
-    return addPathToMsg(msg, path, "val-end");
+    return buildError(msg, path, "val-end");
   }
 
   return [];
@@ -60,7 +60,7 @@ function typeError(
   if (b) return [];
 
   const det = /^[aeiou]/.test(t) ? "an" : "a";
-  return addPathToMsg(`'${v}' is not ${det} ${t}`, p);
+  return buildError(`'${v}' is not ${det} ${t}`, p);
 }
 
 function isType(t: string): ValidatorFn {
@@ -94,7 +94,7 @@ export function validatorFor(type: Structure | Structure[]): ValidatorFn {
       if (errors.length > 0) return errors;
       if (val.length !== type.length) {
         const msg = `array must have length ${type.length}`;
-        return addPathToMsg(msg, path, "val-end");
+        return buildError(msg, path, "val-end");
       }
 
       for (let i = 0; i < val.length; ++i) {
@@ -115,7 +115,7 @@ export function validatorFor(type: Structure | Structure[]): ValidatorFn {
     return (v, p, t, s) => {
       let res = type(v, p, t, s);
       if (typeof res === "boolean") {
-        res = res ? [] : addPathToMsg(`'${v}' does not match`, p);
+        res = res ? [] : buildError(`'${v}' does not match`, p);
       }
       return res;
     };
