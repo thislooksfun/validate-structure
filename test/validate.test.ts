@@ -4,6 +4,15 @@ import { validateStructure } from "../src";
 
 describe("validateStructure()", () => {
   describe("single types", () => {
+    it("any", () => {
+      const type = "any";
+      fc.assert(
+        fc.property(fc.anything(), a => {
+          expect(validateStructure(a, type)).toStrictEqual([]);
+        })
+      );
+    });
+
     it("boolean", () => {
       const type = "boolean";
       expect(validateStructure(null, type)).toStrictEqual([
