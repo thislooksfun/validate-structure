@@ -8,6 +8,33 @@ describe("validateStructure()", () => {
       const type = "any";
       fc.assert(
         fc.property(fc.anything(), a => {
+          if (a == null) {
+            expect(validateStructure(a, type)).toStrictEqual([
+              { msg: "must be non-null", path: [], type: "val-start" },
+            ]);
+          } else {
+            expect(validateStructure(a, type)).toStrictEqual([]);
+          }
+        })
+      );
+
+      fc.assert(
+        fc.property(fc.anything(), a => {
+          if (a == null) {
+            expect(validateStructure(a, type)).toStrictEqual([
+              { msg: "must be non-null", path: [], type: "val-start" },
+            ]);
+          } else {
+            expect(validateStructure(a, type)).toStrictEqual([]);
+          }
+        })
+      );
+    });
+
+    it("any?", () => {
+      const type = "any?";
+      fc.assert(
+        fc.property(fc.anything(), a => {
           expect(validateStructure(a, type)).toStrictEqual([]);
         })
       );

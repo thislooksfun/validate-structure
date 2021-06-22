@@ -74,7 +74,13 @@ const isObj = (v: any) =>
   typeof v === "object" && !Array.isArray(v) && v != null;
 
 const defaultValidators: TypeValidators = {
-  any: () => [],
+  any: (v, p) => {
+    if (v == null) {
+      return buildError("must be non-null", p);
+    } else {
+      return [];
+    }
+  },
   boolean: isType("boolean"),
   number: isType("number"),
   int: isInt,
