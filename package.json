@@ -1,6 +1,6 @@
 {
   "name": "validate-structure",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Check that an object matches the expected structure.",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
