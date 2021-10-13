@@ -29,7 +29,6 @@
     "@semantic-release/release-notes-generator": "^9.0.2",
     "@types/jest": "^26.0.23",
     "@types/nearley": "^2.11.1",
-    "codecov": "^3.8.2",
     "del-cli": "^3.0.1",
     "fast-check": "^2.14.0",
     "husky": "^6.0.0",
